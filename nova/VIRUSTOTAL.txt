@@ -1,0 +1,34 @@
+
+Basic Properties
+MD5	78e67065707e33f51a1c7d344fc1032d
+SHA-1	718e91c0343250d6af5ef6a48386d6ef3e756194
+SHA-256	d1f580062d1b5de8965e0567a96c6a930bb5a5196f17480c1aa1d8813c986a1f
+Vhash	5d1ef20943083aef3dc18674d4456a40
+SSDEEP	98304:GRAS7xo50yFmHvT3DVGlRIkklOYipgwh9A:67K50rbZGlqkklzi2p
+TLSH	T106F5F13257015C1FC8AD557EFB8C2F12FAA8D50970B1F21B7BEDA050B9A36954B8390B
+File type	Google Chrome Extension
+Magic	Zip archive data, at least v2.0 to extract
+TrID	Sweet Home 3D design (generic) (46.6%)
+TrID	Mozilla Archive Format (gen) (31.1%)
+TrID	ZIP compressed archive (17.7%)
+TrID	PrintFox/Pagefox bitmap (640x800) (4.4%)
+File size	3.23 MB (3384753 bytes)
+History
+First Submission	2021-06-03 23:05:57
+Last Submission	2021-06-03 23:05:57
+Last Analysis	2021-06-03 23:05:57
+Earliest Contents Modification	2021-05-21 05:44:40
+Latest Contents Modification	2021-06-03 16:44:40
+Names
+novaaa.zip
+Bundle Info
+Contents Metadata
+Contained Files	1774
+Uncompressed Size	1.24 MB
+Earliest Content Modification	2021-05-21 05:44:40
+Latest Content Modification	2021-06-03 16:44:40
+Contained Files By Type
+SCRIPT	13
+DIRECTORY	245
+UNKNOWN	742
+>>https://www.virustotal.com/gui/file/d1f580062d1b5de8965e0567a96c6a930bb5a5196f17480c1aa1d8813c986a1f/details<<

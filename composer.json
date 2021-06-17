@@ -10,7 +10,11 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
-        "laravel/tinker": "^2.5"
+        "laravel/jetstream": "^2.3",
+        "laravel/sanctum": "^2.6",
+        "laravel/tinker": "^2.5",
+        "livewire/livewire": "^2.0",
+        "laravel/nova": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",
@@ -56,5 +60,12 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./nova"
+        }
+    ]
 }
