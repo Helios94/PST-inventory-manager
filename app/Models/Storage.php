@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Food extends Model
+class Storage extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class Food extends Model
      *
      * @var string
      */
-    protected $table = 'food';
+    protected $table = 'storages';
 
     /**
      * The primary key associated with the table.
@@ -30,27 +30,8 @@ class Food extends Model
      */
     public $timestamps = true;
 
-    protected $casts = [
-        'expiry_date' => 'datetime'
-    ];
-
-    public function user()
+    public function foods()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function storage()
-    {
-        return $this->belongsTo(Storage::class);
-    }
-
-    public function unit()
-    {
-        return $this->belongsTo(Unit::class);
+        return $this->hasMany(Food::class);
     }
 }

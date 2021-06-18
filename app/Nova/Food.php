@@ -2,16 +2,19 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\FoodExpenses;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Food extends Resource
 {
@@ -39,6 +42,20 @@ class Food extends Resource
     ];
 
     /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static $group = 'Items';
+
+    /**
+     * The side nav menu order.
+     *
+     * @var int
+     */
+    public static $priority = 1;
+
+    /**
      * Get the search result subtitle for the resource.
      *
      * @return string
@@ -60,13 +77,16 @@ class Food extends Resource
             ID::make(__('ID'), 'id')->sortable(),
             Avatar::make('Image'),
             Text::make('Name')->sortable(),
-            Text::make('Barcode'),
+            Text::make('Barcode')->creationRules('unique:food,barcode'),
             Textarea::make('Description'),
             Number::make('QTY', 'quantity')->sortable(),
+            BelongsTo::make('Unit'),
+            Currency::make('Price')->locale('tn'),
             Boolean::make('Share', 'Shareable')->sortable(),
             DateTime::make('Expiry Date', 'expiry_date',)->sortable(),
             BelongsTo::make('User'),
-            BelongsTo::make('Category')
+            BelongsTo::make('Category'),
+            BelongsTo::make('Storage')
         ];
     }
 
@@ -78,7 +98,9 @@ class Food extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new FoodExpenses(),
+        ];
     }
 
     /**
@@ -94,7 +116,7 @@ class Food extends Resource
 
     /**
      * Get the lenses available for the resource.
-     *
+     *aut
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
@@ -111,6 +133,8 @@ class Food extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+//            new DownloadExcel(),
+        ];
     }
 }

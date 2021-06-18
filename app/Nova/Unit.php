@@ -3,21 +3,19 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Panel;
 
-class Category extends Resource
+class Unit extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Category::class;
+    public static $model = \App\Models\Unit::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -40,14 +38,7 @@ class Category extends Resource
      *
      * @var string
      */
-    public static $group = 'Items';
-
-    /**
-     * The side nav menu order.
-     *
-     * @var int
-     */
-    public static $priority = 2;
+    public static $group = 'Stock';
 
     /**
      * Get the fields displayed by the resource.
@@ -60,10 +51,6 @@ class Category extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('Name'),
-            Textarea::make('Description'),
-            HasMany::make('Foods'),
-
-            new Panel('Products', $this->foodFields()),
         ];
     }
 
@@ -108,10 +95,6 @@ class Category extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
-    }
-
-    protected function foodFields(){
         return [];
     }
 }
