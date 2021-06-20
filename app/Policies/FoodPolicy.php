@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Food;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class FoodPolicy
 {
@@ -18,6 +19,7 @@ class FoodPolicy
      */
     public function viewAny(User $user)
     {
+//        return $user->isAdmin();
         return true;
     }
 
@@ -30,7 +32,11 @@ class FoodPolicy
      */
     public function view(User $user, Food $food)
     {
-        return true;
+        return $user->isAdmin()
+                    ? true
+                    : ($user->id === $food->user_id
+                    ? Response::allow()
+                    : Response::deny('You do not own this post.'));
     }
 
     /**
@@ -53,7 +59,7 @@ class FoodPolicy
      */
     public function update(User $user, Food $food)
     {
-        return true;
+        return $user->isAdmin() || $user->id == $food->user_id;
     }
 
     /**
@@ -65,7 +71,7 @@ class FoodPolicy
      */
     public function delete(User $user, Food $food)
     {
-        return true;
+        return $user->isAdmin() || $user->id == $food->user_id;
     }
 
     /**
@@ -77,7 +83,7 @@ class FoodPolicy
      */
     public function restore(User $user, Food $food)
     {
-        return true;
+        return $user->isAdmin() || $user->id == $food->user_id;
     }
 
     /**
@@ -89,6 +95,6 @@ class FoodPolicy
      */
     public function forceDelete(User $user, Food $food)
     {
-        return true;
+        return $user->isAdmin() || $user->id == $food->user_id;
     }
 }

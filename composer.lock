@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "42935bb99f2db0612fdf1943b2c18952",
+    "content-hash": "cd7fd7469e38453bf51b429ec4884543",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -7332,6 +7332,60 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
+        },
+        {
+            "name": "yadahan/nova-bouncer",
+            "version": "v0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yadahan/nova-bouncer.git",
+                "reference": "dd6bf7de799a76aaea03d79ac7de82af5e24f7ee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yadahan/nova-bouncer/zipball/dd6bf7de799a76aaea03d79ac7de82af5e24f7ee",
+                "reference": "dd6bf7de799a76aaea03d79ac7de82af5e24f7ee",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "*",
+                "php": "^7.2|^8.0",
+                "silber/bouncer": "v1.0.0-rc.4|v1.0.0-rc.5|v1.0.0-rc.6|v1.0.0-rc.7|v1.0.0-rc.8|v1.0.0-rc.9|v1.0.0-rc.10"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Yadahan\\BouncerTool\\BouncerToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yadahan\\BouncerTool\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yaakov Dahan",
+                    "email": "yakidehan@gmail.com"
+                }
+            ],
+            "description": "A Laravel Nova tool for managing Bouncer roles and abilities.",
+            "keywords": [
+                "bouncer",
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/yadahan/nova-bouncer/issues",
+                "source": "https://github.com/yadahan/nova-bouncer/tree/v0.7.0"
+            },
+            "time": "2020-12-08T23:50:23+00:00"
         }
     ],
     "packages-dev": [

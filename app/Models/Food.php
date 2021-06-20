@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Food extends Model
 {
@@ -29,6 +30,21 @@ class Food extends Model
      * @var bool
      */
     public $timestamps = true;
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            if(!User::find(Auth::id())->isAdmin())
+            {
+                $this->user_id = Auth::id();
+            }
+        });
+    }
 
     protected $casts = [
         'expiry_date' => 'datetime'

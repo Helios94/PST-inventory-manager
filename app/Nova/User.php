@@ -3,11 +3,13 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\MorphToMany;
 
 class User extends Resource
 {
@@ -70,6 +72,19 @@ class User extends Resource
                 ->updateRules('nullable', 'string', 'min:8'),
 
             HasMany::make('Foods'),
+
+            MorphToMany::make('Roles', 'roles', 'Yadahan\BouncerTool\Nova\Role')->fields(function () {
+                return [
+                    Text::make('Scope')
+                        ->sortable()
+                        ->rules('nullable', 'integer'),
+                ];
+            }),
+
+            MorphToMany::make('Abilities', 'abilities', 'Yadahan\BouncerTool\Nova\Ability')
+                ->fields(new \Yadahan\BouncerTool\Nova\PermissionsFields),
+
+            Boolean::make('Is Admin', 'is_admin'),
         ];
     }
 

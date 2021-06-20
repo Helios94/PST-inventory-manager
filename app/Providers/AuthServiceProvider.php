@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Food;
 use App\Models\User;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -15,7 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        //Food::class => FoodPolicy::class
+//        Food::class => FoodPolicy::class,
+//        User::class => UserPolicy::class
     ];
 
     /**

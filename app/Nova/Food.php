@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Nova\Metrics\FoodExpenses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -84,7 +85,13 @@ class Food extends Resource
             Currency::make('Price')->locale('tn'),
             Boolean::make('Share', 'Shareable')->sortable(),
             DateTime::make('Expiry Date', 'expiry_date',)->sortable(),
-            BelongsTo::make('User'),
+            BelongsTo::make('User')
+                ->hideWhenCreating(function (){
+                    return !\App\Models\User::find(Auth::id())->isAdmin();
+                })
+                ->hideWhenUpdating(function (){
+                    return !\App\Models\User::find(Auth::id())->isAdmin();
+                }),
             BelongsTo::make('Category'),
             BelongsTo::make('Storage')
         ];
@@ -98,9 +105,16 @@ class Food extends Resource
      */
     public function cards(Request $request)
     {
-        return [
-            new FoodExpenses(),
-        ];
+        if(\App\Models\User::find(Auth::id())->isAdmin())
+        {
+            return [
+                new FoodExpenses(),
+            ];
+        }
+        else
+        {
+            return [];
+        }
     }
 
     /**

@@ -2,25 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\FoodResource;
-use App\Models\Food;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
-class FoodController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if($this->authorize('viewAny', Food::class)) {
-//            return FoodResource::collection(Food::all());
-            return FoodResource::collection(Food::paginate(1))->preserveQuery();
-        }
+        //
     }
 
     /**
@@ -47,15 +43,12 @@ class FoodController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Request $request
-     * @param int $id
-     * @return FoodResource
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        if($this->authorize('view', Food::find($id))){
-            return new FoodResource(Food::findOrFail($id));
-        }
+        return $request->user();
     }
 
     /**
@@ -90,5 +83,26 @@ class FoodController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'device_name' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        $token = $user->createToken($request->device_name);
+
+        return ['token' => $token->plainTextToken];
     }
 }
