@@ -15,7 +15,7 @@ class AddQrcodePathToFoodTable extends Migration
     {
         Schema::table('food', function (Blueprint $table) {
             $table->text('barcode')->unique()->change();
-            $table->text('qrcode_path')->after('barcode')->nullable();
+            $table->text('qrcode_path')->after('barcode')->nullable()->change();
         });
     }
 
