@@ -4,6 +4,9 @@ namespace Deployer;
 require 'recipe/laravel.php';
 
 set('use_relative_symlinks', false);
+set('composer_options', 'install --verbose');
+//set('composer_options', 'install --verbose --prefer-dist --no-progress --no-interaction --optimize-autoloader');
+
 // Project name
 set('application', 'PST Inventory Manager');
 
