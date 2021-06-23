@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CategoryResource;
-use App\Models\Category;
+use App\Http\Resources\UnitResource;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class CategoryController extends Controller
+class UnitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        if($this->authorize('viewAny', Category::class)) {
-//            return CategoryResource::collection(Category::paginate(1))->preserveQuery();
-            return CategoryResource::collection(Category::all())->preserveQuery();
+        if($this->authorize('viewAny', Unit::class)) {
+//            return UnitResource::collection(Unit::paginate(1))->preserveQuery();
+            return UnitResource::collection(Unit::all())->preserveQuery();
         }
     }
 
@@ -47,12 +47,12 @@ class CategoryController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return CategoryResource
+     * @return UnitResource
      */
     public function show($id)
     {
-        if($this->authorize('view', Category::find($id))){
-            return new CategoryResource(Category::findOrFail($id));
+        if($this->authorize('view', Unit::find($id))){
+            return new UnitResource(Unit::findOrFail($id));
         }
     }
 

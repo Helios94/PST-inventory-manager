@@ -36,7 +36,7 @@ class FoodPolicy
                     ? true
                     : ($user->id === $food->user_id
                     ? Response::allow()
-                    : Response::deny('You do not own this post.'));
+                    : Response::deny('You do not own this Food Item.'));
     }
 
     /**
@@ -59,7 +59,11 @@ class FoodPolicy
      */
     public function update(User $user, Food $food)
     {
-        return $user->isAdmin() || $user->id == $food->user_id;
+        return $user->isAdmin()
+            ? true
+            : ($user->id === $food->user_id
+                ? Response::allow()
+                : Response::deny('You do not own this Food Item.'));
     }
 
     /**
@@ -71,7 +75,11 @@ class FoodPolicy
      */
     public function delete(User $user, Food $food)
     {
-        return $user->isAdmin() || $user->id == $food->user_id;
+        return $user->isAdmin()
+            ? true
+            : ($user->id === $food->user_id
+                ? Response::allow()
+                : Response::deny('You do not own this Food Item.'));
     }
 
     /**
@@ -83,7 +91,11 @@ class FoodPolicy
      */
     public function restore(User $user, Food $food)
     {
-        return $user->isAdmin() || $user->id == $food->user_id;
+        return $user->isAdmin()
+            ? true
+            : ($user->id === $food->user_id
+                ? Response::allow()
+                : Response::deny('You do not own this Food Item.'));
     }
 
     /**
@@ -95,6 +107,10 @@ class FoodPolicy
      */
     public function forceDelete(User $user, Food $food)
     {
-        return $user->isAdmin() || $user->id == $food->user_id;
+        return $user->isAdmin()
+            ? true
+            : ($user->id === $food->user_id
+                ? Response::allow()
+                : Response::deny('You do not own this Food Item.'));
     }
 }

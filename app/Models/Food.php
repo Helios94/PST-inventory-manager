@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\DB;
 
 class Food extends Model
 {
@@ -38,17 +40,32 @@ class Food extends Model
      */
     protected static function booted()
     {
-        static::creating(function ($user) {
+        static::creating(function ($food) {
             if(!User::find(Auth::id())->isAdmin())
             {
                 $this->user_id = Auth::id();
             }
+            $food->generateQrCodePicture();
         });
+
+
+//        static::created(function ($food){
+//        });
     }
 
     protected $casts = [
         'expiry_date' => 'datetime'
     ];
+
+    public function generateQrCodePicture()
+    {
+        $qrFileName = $this->barcode.'.png';
+        QrCode::size(200)
+            ->format('png')
+            ->generate($this->barcode, storage_path('app/public'.$qrFileName));
+        $this->qrcode_path = '/QR/'.$qrFileName;
+        return true;
+    }
 
     public function user()
     {

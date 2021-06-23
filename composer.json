@@ -17,6 +17,7 @@
         "livewire/livewire": "^2.0",
         "maatwebsite/laravel-nova-excel": "^1.2",
         "silber/bouncer": "v1.0.0-rc.10",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "yadahan/nova-bouncer": "^0.7.0"
     },
     "require-dev": {
@@ -24,6 +25,7 @@
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
+        "laravel/telescope": "^4.5",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3"

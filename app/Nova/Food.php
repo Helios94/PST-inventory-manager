@@ -79,6 +79,9 @@ class Food extends Resource
             Avatar::make('Image'),
             Text::make('Name')->sortable(),
             Text::make('Barcode')->creationRules('unique:food,barcode'),
+            Avatar::make('QR Code', 'qrcode_path')->creationRules('unique:food,qrcode_path')
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
             Textarea::make('Description'),
             Number::make('QTY', 'quantity')->sortable(),
             BelongsTo::make('Unit'),

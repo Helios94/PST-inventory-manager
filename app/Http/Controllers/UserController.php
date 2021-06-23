@@ -2,21 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        //
+        if($this->authorize('viewAny', User::class)) {
+//            return UserResource::collection(User::paginate(1))->preserveQuery();
+            return UserResource::collection(User::all())->preserveQuery();
+        }
     }
 
     /**
@@ -44,10 +49,13 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  Request $request
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      */
     public function show(Request $request)
     {
+//        if($this->authorize('view', User::find($request->user()->id()))){
+//            return new UserResource(User::findOrFail($request->user()->id()));
+//        }
         return $request->user();
     }
 
