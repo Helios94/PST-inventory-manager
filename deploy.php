@@ -24,7 +24,7 @@ add('writable_dirs', []);
 host('207.154.214.31')
     ->user('helios')
     ->identityFile('~/.ssh/deployerkey')
-    ->set('deploy_path', '/var/www/pst-inventory-manager');
+    ->set('deploy_path', '/var/www/livewire-app');
 
 // Tasks
 
