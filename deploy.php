@@ -3,6 +3,7 @@ namespace Deployer;
 
 require 'recipe/laravel.php';
 
+set('use_relative_symlinks', false);
 // Project name
 set('application', 'PST Inventory Manager');
 
