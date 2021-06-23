@@ -30,7 +30,7 @@ host('207.154.214.31')
 // Tasks
 
 task('build', function () {
-    run('cd {{release_path}} && build');
+    run('cd {{release_path}} && composer install');
 });
 
 // [Optional] if deploy fails automatically unlock.
