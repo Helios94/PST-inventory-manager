@@ -14,7 +14,7 @@ class AddPriceToFoodTable extends Migration
     public function up()
     {
         Schema::table('food', function (Blueprint $table) {
-            //
+            $table->float('price')->after('quantity');
         });
     }
 
@@ -26,7 +26,7 @@ class AddPriceToFoodTable extends Migration
     public function down()
     {
         Schema::table('food', function (Blueprint $table) {
-            $table->float('price')->after('quantity');
+            //
         });
     }
 }
