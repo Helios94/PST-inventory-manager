@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Food;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreFoodRequest extends FormRequest
@@ -13,6 +14,7 @@ class StoreFoodRequest extends FormRequest
      */
     public function authorize()
     {
+//        return $this->user()->can('create', Food::class);
         return true;
     }
 
@@ -27,7 +29,7 @@ class StoreFoodRequest extends FormRequest
             'name' => 'bail|required',
             'category_id' => 'bail|required',
             'image' => 'bail|required|image',
-            'barcode' => 'bail|required|unique:food,barcode',
+            'barcode' => 'bail|required',
             'description' => 'bail|required|max:255',
             'expiry_date' => 'bail|required',
             'quantity' => 'bail|required',

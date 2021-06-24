@@ -44,11 +44,20 @@ class FoodController extends Controller
      */
     public function store(StoreFoodRequest $request)
     {
-        if($this->authorize('store', Food::class)){
+//        $validated = $request->validated();
+//        return response()->json($validated);
+
+        if($this->authorize('create', Food::class)){
             $newFoodItem = new Food();
             $newFoodItem->name = $request->input('name');
             $newFoodItem->category_id = $request->input('category_id');
-            $newFoodItem->image = $request->input('image');
+
+            // IMAGE UPLOAD TO PUBLIC DISK
+            $imgUploadPath = $request->file('image')->store(
+                '', 'public'
+            );
+            $newFoodItem->image = $imgUploadPath;
+
             $newFoodItem->barcode = $request->input('barcode');
             $newFoodItem->qrcode_path = $request->input('qrcode_path');
             $newFoodItem->description = $request->input('description');
@@ -59,6 +68,7 @@ class FoodController extends Controller
             $newFoodItem->shareable = $request->input('shareable');
             $newFoodItem->storage_id = $request->input('storage_id');
             $newFoodItem->unit_id = $request->input('unit_id');
+            $newFoodItem->save();
 
             return response()->json($newFoodItem);
         }

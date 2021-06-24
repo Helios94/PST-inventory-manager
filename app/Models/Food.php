@@ -62,7 +62,8 @@ class Food extends Model
         $qrFileName = $this->barcode.'.png';
         QrCode::size(200)
             ->format('png')
-            ->generate($this->barcode, storage_path('app/public'.$qrFileName));
+//            ->generate($this->barcode, storage_path('app/public'.$qrFileName));
+            ->generate($this->barcode, $picPath= storage_path('app/public/QR/'.$qrFileName));
         $this->qrcode_path = '/QR/'.$qrFileName;
         return true;
     }
