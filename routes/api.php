@@ -30,7 +30,8 @@ Route::middleware(['auth:sanctum','cors'])->group( function () {
     Route::get('/user', [UserController::class, 'show']);
 
     // Return QR Code pictrue for food item by ID
-    Route::get('/qr-code/{id}', [FoodController::class, 'qrCodePicture']);
+    Route::get('/generateFoodQRCode/{id}', [FoodController::class, 'qrCodePicture']);
+    Route::get('/getFoodByQRcode/{barcode}', [FoodController::class, 'getItemByQR']);
 
     // PHP INFO
     Route::get('/phpinfo', function() {

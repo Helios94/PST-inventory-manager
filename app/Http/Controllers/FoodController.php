@@ -83,8 +83,8 @@ class FoodController extends Controller
      */
     public function show($id)
     {
-        if($this->authorize('view', Food::find($id))){
-            return new FoodResource(Food::findOrFail($id));
+        if($this->authorize('view', $foodItem = Food::find($id))){
+            return new FoodResource($foodItem);
         }
     }
 
@@ -108,8 +108,6 @@ class FoodController extends Controller
      */
     public function update(StoreFoodRequest $request, $id)
     {
-        return response()->json($request->messages());
-
         if($this->authorize('update', $foodItem = Food::find($id))){
             $foodItem->name = $request->input('name');
             $foodItem->category_id = $request->input('category_id');
@@ -177,7 +175,18 @@ class FoodController extends Controller
             'id' => $id,
             'QRCodeImg' => $picPath
         ];
-//        return response()->json($responseData);
         return response()->file($picPath);
+    }
+
+    public function getItemByQR($barcode){
+        if($foodByBarcode = Food::where('barcode', $barcode)->first()){
+//            if($this->authorize('view', $foodItem = Food::find($foodByBarcode->id))){
+                return new FoodResource($foodByBarcode);
+//            }
+        }else{
+            return response()->json([
+                'message' => 'No food item with barcode '.$barcode.'was found'
+            ]);
+        }
     }
 }
