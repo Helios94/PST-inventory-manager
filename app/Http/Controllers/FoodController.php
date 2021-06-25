@@ -96,19 +96,53 @@ class FoodController extends Controller
      */
     public function edit($id)
     {
-        //
+        // RETURNS HTML (USE UPDATE TO UPDATE)
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StorePostRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreFoodRequest $request, $id)
     {
-        //
+        $validated = $request->validated();
+        return response()->json($validated);
+
+        if($this->authorize('update', $foodItem = Food::find($id))){
+            $foodItem->name = $request->input('name');
+            $foodItem->category_id = $request->input('category_id');
+
+            // IMAGE UPLOAD TO PUBLIC DISK
+            $imgUploadPath = $request->file('image')->store(
+                '', 'public'
+            );
+            $foodItem->image = $imgUploadPath;
+
+            $foodItem->barcode = $request->input('barcode');
+            $foodItem->qrcode_path = $request->input('qrcode_path');
+            $foodItem->description = $request->input('description');
+            $foodItem->expiry_date = $request->input('expiry_date');
+            $foodItem->quantity = $request->input('quantity');
+            $foodItem->price = $request->input('price');
+            $foodItem->user_id = $request->input('user_id');
+            $foodItem->shareable = $request->input('shareable');
+            $foodItem->storage_id = $request->input('storage_id');
+            $foodItem->unit_id = $request->input('unit_id');
+
+            if ($foodItem->save()){
+                return response()->json([
+                    'data' => $foodItem,
+                    'message' => 'Updated'
+                ]);
+            }else{
+                return response()->json([
+                    'message' => 'An error has occured'
+                ]);
+            }
+        }
     }
 
     /**
@@ -119,7 +153,17 @@ class FoodController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if($this->authorize('delete', $foodItem = Food::find($id))){
+            if($foodItem->delete()) {
+                return response()->json([
+                    'message' => 'Deleted'
+                ]);
+            }else{
+                return response()->json([
+                    'message' => 'An error has occured'
+                ]);
+            }
+        }
     }
 
     public function qrCodePicture($id)

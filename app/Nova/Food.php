@@ -86,7 +86,7 @@ class Food extends Resource
             Number::make('QTY', 'quantity')->sortable(),
             BelongsTo::make('Unit'),
             Currency::make('Price')->locale('tn'),
-            Boolean::make('Share', 'Shareable')->sortable(),
+            Boolean::make('Share', 'shareable')->sortable(),
             DateTime::make('Expiry Date', 'expiry_date',)->sortable(),
             BelongsTo::make('User')
                 ->hideWhenCreating(function (){
