@@ -108,8 +108,7 @@ class FoodController extends Controller
      */
     public function update(StoreFoodRequest $request, $id)
     {
-        $validated = $request->validated();
-        return response()->json($validated);
+        return response()->json($request->messages());
 
         if($this->authorize('update', $foodItem = Food::find($id))){
             $foodItem->name = $request->input('name');
