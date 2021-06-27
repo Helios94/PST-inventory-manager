@@ -2,13 +2,13 @@
 
 namespace App\Policies;
 
-use App\Models\Food;
+use App\Models\OfficeSupply;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
 
-class FoodPolicy
+class OfficeSupplyPolicy
 {
     use HandlesAuthorization;
 
@@ -20,7 +20,6 @@ class FoodPolicy
      */
     public function viewAny(User $user)
     {
-//        return $user->isAdmin();
         return Auth::check();
     }
 
@@ -28,16 +27,16 @@ class FoodPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Food  $food
+     * @param  \App\Models\OfficeSupply  $officeSupply
      * @return mixed
      */
-    public function view(User $user, Food $food)
+    public function view(User $user, OfficeSupply $officeSupply)
     {
         return $user->isAdmin()
-                    ? true
-                    : ($user->id === $food->user_id
-                    ? Response::allow()
-                    : Response::deny('You do not own this Food Item.'));
+            ? true
+            : ($user->id === $officeSupply->user_id
+                ? Response::allow()
+                : Response::deny('You do not own this Office Supply Item.'));
     }
 
     /**
@@ -55,63 +54,63 @@ class FoodPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Food  $food
+     * @param  \App\Models\OfficeSupply  $officeSupply
      * @return mixed
      */
-    public function update(User $user, Food $food)
+    public function update(User $user, OfficeSupply $officeSupply)
     {
         return $user->isAdmin()
             ? true
-            : ($user->id === $food->user_id
+            : ($user->id === $officeSupply->user_id
                 ? Response::allow()
-                : Response::deny('You do not own this Food Item.'));
+                : Response::deny('You do not own this Office Supply Item.'));
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Food  $food
+     * @param  \App\Models\OfficeSupply  $officeSupply
      * @return mixed
      */
-    public function delete(User $user, Food $food)
+    public function delete(User $user, OfficeSupply $officeSupply)
     {
         return $user->isAdmin()
             ? true
-            : ($user->id === $food->user_id
+            : ($user->id === $officeSupply->user_id
                 ? Response::allow()
-                : Response::deny('You do not own this Food Item.'));
+                : Response::deny('You do not own this Office Supply Item.'));
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Food  $food
+     * @param  \App\Models\OfficeSupply  $officeSupply
      * @return mixed
      */
-    public function restore(User $user, Food $food)
+    public function restore(User $user, OfficeSupply $officeSupply)
     {
         return $user->isAdmin()
             ? true
-            : ($user->id === $food->user_id
+            : ($user->id === $officeSupply->user_id
                 ? Response::allow()
-                : Response::deny('You do not own this Food Item.'));
+                : Response::deny('You do not own this Office Supply Item.'));
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Food  $food
+     * @param  \App\Models\OfficeSupply  $officeSupply
      * @return mixed
      */
-    public function forceDelete(User $user, Food $food)
+    public function forceDelete(User $user, OfficeSupply $officeSupply)
     {
         return $user->isAdmin()
             ? true
-            : ($user->id === $food->user_id
+            : ($user->id === $officeSupply->user_id
                 ? Response::allow()
-                : Response::deny('You do not own this Food Item.'));
+                : Response::deny('You do not own this Office Supply Item.'));
     }
 }

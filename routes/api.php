@@ -7,6 +7,7 @@ use App\Http\Controllers\FoodController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\StorageController;
+use App\Http\Controllers\OfficeSupplyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,19 +20,25 @@ use App\Http\Controllers\StorageController;
 |
 */
 
-Route::middleware(['auth:sanctum','cors'])->group( function () {
-    Route::resource('food', FoodController::class);
-    Route::resource('category', CategoryController::class);
-    Route::resource('unit', UnitController::class);
-    Route::resource('storage', StorageController::class);
-    Route::resource('user', UserController::class);
+//Route::middleware(['auth:sanctum','cors'])->group( function () {
+Route::middleware(['auth:sanctum'])->group( function () {
+    Route::apiResource('user', UserController::class);
+    Route::apiResource('food', FoodController::class);
+    Route::apiResource('office-supply', OfficeSupplyController::class);
+    Route::apiResource('category', CategoryController::class);
+    Route::apiResource('storage', StorageController::class);
+    Route::apiResource('unit', UnitController::class);
 
     // Get Authenticated User Details
     Route::get('/user', [UserController::class, 'show']);
 
-    // Return QR Code pictrue for food item by ID
-    Route::get('/generateFoodQRCode/{id}', [FoodController::class, 'qrCodePicture']);
-    Route::get('/getFoodByQRcode/{barcode}', [FoodController::class, 'getItemByQR']);
+    // QR Endpoints for Food Model
+    Route::get('/food/generateQRCode/{id}', [FoodController::class, 'qrCodePicture']);
+    Route::get('/food/getByQRcode/{barcode}', [FoodController::class, 'getItemByQR']);
+
+    // QR Endpoints for Office Supply Model
+    Route::get('/office-supply/generateQRCode/{id}', [OfficeSupplyController::class, 'qrCodePicture']);
+    Route::get('/office-supply/getByQRcode/{barcode}', [OfficeSupplyController::class, 'getItemByQR']);
 
     // PHP INFO
     Route::get('/phpinfo', function() {

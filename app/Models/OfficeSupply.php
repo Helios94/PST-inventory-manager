@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Illuminate\Support\Facades\DB;
 
-class Food extends Model
+class OfficeSupply extends Model
 {
     use HasFactory;
 
@@ -17,7 +16,7 @@ class Food extends Model
      *
      * @var string
      */
-    protected $table = 'food';
+    protected $table = 'office_supplies';
 
     /**
      * The primary key associated with the table.
@@ -66,7 +65,6 @@ class Food extends Model
         $qrFileName = $this->barcode.'.png';
         QrCode::size(200)
             ->format('png')
-//            ->generate($this->barcode, storage_path('app/public'.$qrFileName));
             ->generate($this->barcode, $picPath= storage_path('app/public/QR/'.$qrFileName));
         $this->qrcode_path = '/QR/'.$qrFileName;
         return true;

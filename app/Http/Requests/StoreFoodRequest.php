@@ -15,17 +15,7 @@ class StoreFoodRequest extends FormRequest
      */
     public function authorize()
     {
-//        return $this->user()->can('create', Food::class);
         return true;
-    }
-
-    public function withValidator(\Illuminate\Validation\Validator $validator)
-    {
-        if ($validator->fails()) {
-            return $validator->failed();
-        }else{
-            return true;
-        }
     }
 
 //    /**
