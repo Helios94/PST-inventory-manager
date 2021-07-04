@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::get('/test', function() {
     phpinfo();
 });
+
+Route::get('/livewire', Livewire\Test::class)->name('test');
+Route::get('/food', Livewire\Food::class)->name('food');

@@ -12,6 +12,8 @@ class Food extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     /**
      * The table associated with the model.
      *
@@ -90,5 +92,9 @@ class Food extends Model
     public function unit()
     {
         return $this->belongsTo(Unit::class);
+    }
+
+    public function operations(){
+        return $this->belongsToMany(Operation::class, 'food_operation')->using(FoodOperation::class)->withTimestamps();
     }
 }

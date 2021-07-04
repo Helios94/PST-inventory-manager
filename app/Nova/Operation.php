@@ -2,36 +2,35 @@
 
 namespace App\Nova;
 
-use App\Nova\Metrics\FoodExpenses;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Currency;
-use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
+use ZiffMedia\NovaSelectPlus\SelectPlus;
 
-class Food extends Resource
+class Operation extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Food::class;
+    public static $model = \App\Models\Operation::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -39,7 +38,7 @@ class Food extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'id',
     ];
 
     /**
@@ -47,7 +46,7 @@ class Food extends Resource
      *
      * @var string
      */
-    public static $group = 'Items';
+    public static $group = 'Operations';
 
     /**
      * The side nav menu order.
@@ -55,16 +54,6 @@ class Food extends Resource
      * @var int
      */
     public static $priority = 1;
-
-    /**
-     * Get the search result subtitle for the resource.
-     *
-     * @return string
-     */
-    public function subtitle()
-    {
-        return $this->barcode;
-    }
 
     /**
      * Get the fields displayed by the resource.
@@ -76,28 +65,33 @@ class Food extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            Textarea::make('Description'),
             Avatar::make('Image'),
-            Text::make('Name')->sortable(),
-            Text::make('Barcode')->creationRules('unique:food,barcode'),
-            Avatar::make('QR Code', 'qrcode_path')->creationRules('unique:food,qrcode_path')
+            BelongsTo::make('User', 'user1'),
+            BelongsTo::make('User', 'user2'),
+            SelectPlus::make('Foods', 'foods', Food::class),
+            BelongsToMany::make('Foods', 'foods', Food::class)
+                ->fields(function () {
+                    return [
+                        Text::make('Quantity'),
+                    ];
+                }),
+            Number::make('QTY', 'quantity')->sortable(),
+            Select::make('Type')->options([
+                    'Food' => 'Food',
+                    'Office Supply' => 'Office Supply',
+                ]),
+            Select::make('Status')->options([
+                    'Waiting' => 'Waiting',
+                    'Approved' => 'Approved',
+                    'Declined' => 'Declined',
+                ])->hideFromIndex()
+                ->hideFromDetail(),
+            Status::make('Status')
+                ->loadingWhen(['Waiting'])
+                ->failedWhen(['Declined'])
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
-            Textarea::make('Description'),
-            Number::make('QTY', 'quantity')->sortable(),
-            BelongsTo::make('Unit'),
-            Currency::make('Price')->locale('tn'),
-            Boolean::make('Share', 'shareable')->sortable(),
-            DateTime::make('Expiry Date', 'expiry_date',)->sortable(),
-            BelongsTo::make('User')
-                ->searchable()
-                ->hideWhenCreating(function (){
-                    return !\App\Models\User::find(Auth::id())->isAdmin();
-                })
-                ->hideWhenUpdating(function (){
-                    return !\App\Models\User::find(Auth::id())->isAdmin();
-                }),
-            BelongsTo::make('Category'),
-            BelongsTo::make('Storage')
         ];
     }
 
@@ -109,16 +103,7 @@ class Food extends Resource
      */
     public function cards(Request $request)
     {
-        if(\App\Models\User::find(Auth::id())->isAdmin())
-        {
-            return [
-                new FoodExpenses(),
-            ];
-        }
-        else
-        {
-            return [];
-        }
+        return [];
     }
 
     /**
@@ -134,7 +119,7 @@ class Food extends Resource
 
     /**
      * Get the lenses available for the resource.
-     *aut
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
@@ -151,8 +136,6 @@ class Food extends Resource
      */
     public function actions(Request $request)
     {
-        return [
-//            new DownloadExcel(),
-        ];
+        return [];
     }
 }
