@@ -10,4 +10,17 @@ class FoodOperation extends Pivot
 {
     use HasFactory;
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'quantity' => false,
+    ];
+
+    public function shareableFood()
+    {
+//        return $this->belongsToMany(Food::class)->whereShareable;
+    }
 }

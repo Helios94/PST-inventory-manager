@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\DateTime;
@@ -15,6 +16,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\ResourceIndexRequest;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Food extends Resource
@@ -75,19 +77,46 @@ class Food extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+            ID::make(__('ID'), 'id')->sortable()
+                ->hideFromIndex(function (ResourceIndexRequest $request) {
+                    return $request->viaRelationship();
+                }),
             Avatar::make('Image'),
             Text::make('Name')->sortable(),
-            Text::make('Barcode')->creationRules('unique:food,barcode'),
+            Text::make('Barcode')->creationRules('unique:food,barcode')
+                ->hideFromIndex(function (ResourceIndexRequest $request) {
+                    return $request->viaRelationship();
+                }),
             Avatar::make('QR Code', 'qrcode_path')->creationRules('unique:food,qrcode_path')
                 ->hideWhenCreating()
-                ->hideWhenUpdating(),
-            Textarea::make('Description'),
-            Number::make('QTY', 'quantity')->sortable(),
-            BelongsTo::make('Unit'),
-            Currency::make('Price')->locale('tn'),
-            Boolean::make('Share', 'shareable')->sortable(),
-            DateTime::make('Expiry Date', 'expiry_date',)->sortable(),
+                ->hideWhenUpdating()
+                ->hideFromIndex(function (ResourceIndexRequest $request) {
+                    return $request->viaRelationship();
+                }),
+            Textarea::make('Description')
+                ->hideFromIndex(function (ResourceIndexRequest $request) {
+                    return $request->viaRelationship();
+                }),
+            Number::make('QTY', 'quantity')->sortable()
+                ->hideFromIndex(function (ResourceIndexRequest $request) {
+                    return $request->viaRelationship();
+                }),
+            BelongsTo::make('Unit')
+                ->hideFromIndex(function (ResourceIndexRequest $request) {
+                    return $request->viaRelationship();
+                }),
+            Currency::make('Price')->locale('tn')
+                ->hideFromIndex(function (ResourceIndexRequest $request) {
+                    return $request->viaRelationship();
+                }),
+            Boolean::make('Share', 'shareable')->sortable()
+                ->hideFromIndex(function (ResourceIndexRequest $request) {
+                    return $request->viaRelationship();
+                }),
+            DateTime::make('Expiry Date', 'expiry_date',)->sortable()
+                ->hideFromIndex(function (ResourceIndexRequest $request) {
+                    return $request->viaRelationship();
+                }),
             BelongsTo::make('User')
                 ->searchable()
                 ->hideWhenCreating(function (){
@@ -96,8 +125,16 @@ class Food extends Resource
                 ->hideWhenUpdating(function (){
                     return !\App\Models\User::find(Auth::id())->isAdmin();
                 }),
-            BelongsTo::make('Category'),
+            BelongsTo::make('Category')
+                ->hideFromIndex(function (ResourceIndexRequest $request) {
+                    return $request->viaRelationship();
+                }),
             BelongsTo::make('Storage')
+                ->hideFromIndex(function (ResourceIndexRequest $request) {
+                    return $request->viaRelationship();
+                }),
+            BelongsToMany::make('Operations', 'operations', Operation::class)
+                ->fields(new FoodOperationFields()),
         ];
     }
 

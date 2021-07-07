@@ -18,19 +18,19 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     {
         // Telescope::night();
 
-        $this->hideSensitiveRequestDetails();
+//        $this->hideSensitiveRequestDetails();
 
-        Telescope::filter(function (IncomingEntry $entry) {
-            if ($this->app->environment('local')) {
-                return true;
-            }
-
-            return $entry->isReportableException() ||
-                   $entry->isFailedRequest() ||
-                   $entry->isFailedJob() ||
-                   $entry->isScheduledTask() ||
-                   $entry->hasMonitoredTag();
-        });
+//        Telescope::filter(function (IncomingEntry $entry) {
+//            if ($this->app->environment('local')) {
+//                return true;
+//            }
+//
+//            return $entry->isReportableException() ||
+//                   $entry->isFailedRequest() ||
+//                   $entry->isFailedJob() ||
+//                   $entry->isScheduledTask() ||
+//                   $entry->hasMonitoredTag();
+//        });
     }
 
     /**
@@ -62,10 +62,11 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate()
     {
-        Gate::define('viewTelescope', function ($user) {
-            return in_array($user->email, [
-                'torjmenhelmi@gmail.com'
-            ]);
-        });
+        return true;
+//        Gate::define('viewTelescope', function ($user) {
+//            return in_array($user->email, [
+//                'torjmenhelmi@gmail.com'
+//            ]);
+//        });
     }
 }

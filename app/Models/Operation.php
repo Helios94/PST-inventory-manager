@@ -12,6 +12,15 @@ class Operation extends Model
     protected $guarded = [];
 
     /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'quantity' => false,
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -44,6 +53,14 @@ class Operation extends Model
 
     public function foods()
     {
-        return $this->belongsToMany(Food::class, 'food_operation')->using(FoodOperation::class)->withTimestamps();
+        return $this->belongsToMany(Food::class)
+            ->using(FoodOperation::class)
+            ->withTimestamps()
+            ->withPivot(['quantity']);
+    }
+
+    public function shareableFoods()
+    {
+        return $this->belongsToMany(Food::class);
     }
 }

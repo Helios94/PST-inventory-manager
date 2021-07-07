@@ -95,6 +95,9 @@ class Food extends Model
     }
 
     public function operations(){
-        return $this->belongsToMany(Operation::class, 'food_operation')->using(FoodOperation::class)->withTimestamps();
+        return $this->belongsToMany(Operation::class)
+            ->using(FoodOperation::class)
+            ->withTimestamps()
+            ->withPivot(['quantity']);
     }
 }

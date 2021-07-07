@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Models\FoodOperation;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\BelongsTo;
@@ -14,6 +15,8 @@ use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\ResourceIndexRequest;
+use Laravel\Nova\Query\Builder;
 use ZiffMedia\NovaSelectPlus\SelectPlus;
 
 class Operation extends Resource
@@ -69,13 +72,13 @@ class Operation extends Resource
             Avatar::make('Image'),
             BelongsTo::make('User', 'user1'),
             BelongsTo::make('User', 'user2'),
-            SelectPlus::make('Foods', 'foods', Food::class),
+//            SelectPlus::make('Foods', 'foods', Food::class),
+            SelectPlus::make('foods', 'foods', Food::class),
+//                ->optionsQuery(function (Builder $query) {
+//                    $query->
+//                }),
             BelongsToMany::make('Foods', 'foods', Food::class)
-                ->fields(function () {
-                    return [
-                        Text::make('Quantity'),
-                    ];
-                }),
+                ->fields(new FoodOperationFields()),
             Number::make('QTY', 'quantity')->sortable(),
             Select::make('Type')->options([
                     'Food' => 'Food',
