@@ -110,8 +110,10 @@ class UserController extends Controller
         }
 
         $token = $user->createToken($request->device_name);
-
-        return ['token' => $token->plainTextToken];
+        return [
+            'user' => $user,
+            'token' => $token->plainTextToken
+        ];
     }
 
     public function register(Request $request)
